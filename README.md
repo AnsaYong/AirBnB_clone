@@ -29,7 +29,9 @@ to provide a command prompt with functionalities for creating, displaying, updat
 
 ##### How to Start:
 
-To start the interpreter, run the script - _$ ./console.py_.
+To start the interpreter, run the script as follows
+- `$ ./console.py`
+
 If executed directly, it enters the command loop, displaying the prompt `(hbnb) `.
 
 ##### How to Use:
@@ -47,26 +49,21 @@ The interpreter supports various commands:
 ##### Examples:
 
 1. Create an Instance:
-
-`(hbnb) create BaseModel`
+- `(hbnb) create BaseModel`
 
 2. Show an Instance:
-
-`(hbnb) show BaseModel 1234-1234-1234`
+- `(hbnb) show BaseModel 1234-1234-1234`
 
 3. Destroy an Instance:
-
-`(hbnb) destroy BaseModel 1234-1234-1234`
+- `(hbnb) destroy BaseModel 1234-1234-1234`
 
 4. Show All Instances:
-
-`(hbnb) all`
-`(hbnb) all User`
-`(hbnb) all Amenity`
+- `(hbnb) all`
+- `(hbnb) all User`
+- `(hbnb) all Amenity`
 
 5. Update an Instance:
-
-`(hbnb) update BaseModel 1234-1234-1234 name "New Name"`
+- `(hbnb) update BaseModel 1234-1234-1234 name "New Name"`
 
 
 We look forward to laying the groundwork for an efficient and robust Airbnb clone.
