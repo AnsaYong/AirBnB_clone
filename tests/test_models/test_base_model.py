@@ -34,7 +34,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_id_string(self):
         """
-        description
+        Test whether `id` is a string
         """
         base = BaseModel()
         self.assertTrue(isinstance(base.id, str))
