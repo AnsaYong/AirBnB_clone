@@ -60,7 +60,7 @@ class TestBaseModel(unittest.TestCase):
         """Check if the string representation is correct
         """
         expected_str = "[State] ({}) {}".format(self.my_state.id,
-                                               self.my_state.__dict__)
+                                                self.my_state.__dict__)
 
         self.assertEqual(str(self.my_state), expected_str)
 
