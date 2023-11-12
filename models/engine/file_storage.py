@@ -65,16 +65,16 @@ class FileStorage:
                 # 'Load' the string from JSON file to a dictionary
                 FileStorage.__objects = json.load(f)
 
-            # Convert all dictionarys back to objects/instances
-            for instance in FileStorage.__objects.values():
-                # instance represents objects stored in the file/dict
-                class_name = instance["__class__"]
-                # Check if `__class__` attribute is a string and if the
-                # corresponding class can be evaluated using eval
-                # i.e. (the class exists and is a valid type)
-                if (
-                    isinstance(class_name, str) and
-                    type(eval(class_name)) == type
-                ):
-                    # Recreate the class instance and add it to storage
-                    self.new(eval(class_name)(**instance))
+                # Convert all dictionarys back to objects/instances
+                for instance in FileStorage.__objects.values():
+                    # instance represents objects stored in the file/dict
+                    class_name = instance["__class__"]
+                    # Check if `__class__` attribute is a string and if the
+                    # corresponding class can be evaluated using eval
+                    # i.e. (the class exists and is a valid type)
+                    if (
+                        isinstance(class_name, str) and
+                        type(eval(class_name)) == type
+                    ):
+                        # Recreate the class instance and add it to storage
+                        self.new(eval(class_name)(**instance))
