@@ -30,6 +30,24 @@ class HBNBCommand(cmd.Cmd):
             "Review"
             ]
 
+    def precmd(self, line):
+        """Split the input into command and arguments
+        and returns the modified arguments
+        """
+        cmd, _, arg = line.partition(' ')
+
+        # Check if the command is in the form ClassName.command()
+        if '.' in cmd:
+            class_name, _, cmd = cmd.partition('.')
+            # Check if the class exists in the global namespace
+            if class_name in globals() and isinstance(globals()[class_name], type):
+                # Update the argument with the class name
+                arg = f"{class_name}.{cmd}"
+
+        # Reassemble the modified line
+        modified_line = f"{cmd} {arg}".strip()
+        return modified_line
+
     def do_quit(self, arg):
         """Quit command to exit the program
         """
@@ -166,7 +184,6 @@ class HBNBCommand(cmd.Cmd):
                                                        (str, int, float))):
                                             setattr(obj, attr_name, attr_value)
                                             obj.save()
-                                            print(obj)
                             instance_found = True
                             break
                     if not instance_found:
@@ -181,7 +198,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
-    def precmd(self, line):
+    def cmdloop(self, intro=None):
         """
         Add an empty line before executing command in non-interactive
         mode (only) so that the output mimics that of the interactive
@@ -189,7 +206,9 @@ class HBNBCommand(cmd.Cmd):
         """
         if not sys.stdin.isatty():
             print()
-        return line
+
+        # Call the base class cmdloop
+        return super().cmdloop(intro)
 
 
 if __name__ == '__main__':
