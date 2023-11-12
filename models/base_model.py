@@ -6,6 +6,7 @@ here will be used by all other classes
 """
 import uuid
 import models
+from models import storage
 from datetime import datetime, timedelta
 
 
@@ -52,7 +53,7 @@ class BaseModel:
         the instance to `storage` _from the `FileStorage` module
         """
         self.updated_at = datetime.today()
-        models.storage.save()
+        storage.save()   # Responsible for persisting the data
 
     def to_dict(self):
         """Converts an instance to a dictionary containing all
