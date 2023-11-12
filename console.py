@@ -30,6 +30,24 @@ class HBNBCommand(cmd.Cmd):
             "Review"
             ]
 
+    def precmd(self, line):
+        """Split the input into command and arguments
+        and returns the modified arguments
+        """
+        cmd, _, arg = line.partition(' ')
+
+        # Check if the command is in the form ClassName.command()
+        if '.' in cmd:
+            class_name, _, cmd = cmd.partition('.')
+            # Check if the class exists in the global namespace
+            if class_name in globals() and isinstance(globals()[class_name], type):
+                # Update the argument with the class name
+                arg = f"{class_name}.{cmd}"
+
+        # Reassemble the modified line
+        modified_line = f"{cmd} {arg}".strip()
+        return modified_line
+
     def do_quit(self, arg):
         """Quit command to exit the program
         """
