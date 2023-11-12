@@ -48,8 +48,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if arg in HBNBCommand.all_classes and isinstance(globals()[arg], type):
-            my_instance = globals()[arg]()  # Equivalent to my_instance = arg()
+        if hasattr(models, arg):
+            # Use getattr to get the class object by name
+            my_class = getattr(models, arg)
+            my_instance = my_class()
             my_instance.save()
             print(my_instance.id)
         else:
