@@ -180,7 +180,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
-    def precmd(self, line):
+    def cmdloop(self, intro=None):
         """
         Add an empty line before executing command in non-interactive
         mode (only) so that the output mimics that of the interactive
@@ -188,7 +188,9 @@ class HBNBCommand(cmd.Cmd):
         """
         if not sys.stdin.isatty():
             print()
-        return line
+
+        # Call the base class cmdloop
+        return super().cmdloop(intro)
 
 
 if __name__ == '__main__':
