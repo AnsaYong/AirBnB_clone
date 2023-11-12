@@ -6,6 +6,7 @@ here will be used by all other classes
 """
 import uuid
 import models
+from models import storage
 from datetime import datetime
 from datetime import timedelta
 
