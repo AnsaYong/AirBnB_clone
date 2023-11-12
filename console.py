@@ -30,13 +30,6 @@ class HBNBCommand(cmd.Cmd):
             "Review"
             ]
 
-    def __init__(self):
-        """Tracks whether a command was processed before
-        a method is called
-        """
-        super().__init__()
-        self.processed_command = False
-
     def do_quit(self, arg):
         """Quit command to exit the program
         """
@@ -127,35 +120,15 @@ class HBNBCommand(cmd.Cmd):
         """Prints all string representation of all
         instances based or not on the class name.
         """
-        obj_list = []
-
-        # Handle the case for `<class_name>.all()`
-        if self.processed_command:
-            # Has been preprocessed before this was called
-            if arg in globals() and isinstance(globals()[arg], type):
-                all_objs = storage.all()
-                for key, obj in all_objs.items():
-                    if obj.__class__.__name__ == arg:
-                        obj_list.append(obj)
-                print(obj_list)
-            else:
-                print("** class doesn't exist **")
-            self.processed_command = False  # Reset the flag
-
-        # Handle the case for `all` and `all <class_name>`
+        list = []
+        if not arg or arg in globals() and isinstance(globals()[arg], type):
+            all_objs = storage.all()
+            for obj_id, obj in all_objs.items():
+                list.append(str(obj))
+            print(list)
         else:
-            # Command was entered directly
-            if (
-                not arg or arg in globals() and
-                isinstance(globals()[arg], type)
-            ):
-                all_objs = storage.all()
-                for key, obj in all_objs.items():
-                    obj_list.append(str(obj))
-                print(obj_list)
-            else:
-                # Class does not exist
-                print("** class doesn't exist **")
+            print("** class doesn't exist **")
+            return
 
     def do_update(self, arg):
         """
@@ -193,7 +166,6 @@ class HBNBCommand(cmd.Cmd):
                                                        (str, int, float))):
                                             setattr(obj, attr_name, attr_value)
                                             obj.save()
-
                             instance_found = True
                             break
                     if not instance_found:
@@ -210,22 +182,13 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, line):
         """
-        Preprocess the command before execution.
+        Add an empty line before executing command in non-interactive
+        mode (only) so that the output mimics that of the interactive
+        mode
         """
-        # Print newline if not a terminal
         if not sys.stdin.isatty():
             print()
-
-        # Logic to handle the syntax `<class_name>.all()`
-        command_parts = line.split(".")
-        if len(command_parts) == 2 and command_parts[1].startswith("all("):
-            # Modify command to be executed with class name as argument
-            class_name = command_parts[0]
-            self.lastcmd = f'all {class_name}'   # New command
-            self.processed_command = True  # Set the flag
-            return self.lastcmd
-        else:
-            return line
+        return line
 
 
 if __name__ == '__main__':
