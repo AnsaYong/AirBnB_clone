@@ -50,8 +50,8 @@ class FileStorage:
             # from BaseModel so have the to_dict() method
             obj_dict[key] = value.to_dict()
 
-            with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-                json.dump(obj_dict, f)
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
+            json.dump(obj_dict, f)
 
     def reload(self):
         """Deserializes the JSON file specified in `__file_path`
