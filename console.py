@@ -136,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
                 all_objs = storage.all()
                 for key, obj in all_objs.items():
                     if obj.__class__.__name__ == arg:
-                        obj_list.append(str(obj))
+                        obj_list.append(obj)
                 print(obj_list)
             else:
                 print("** class doesn't exist **")
