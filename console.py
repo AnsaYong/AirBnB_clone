@@ -5,7 +5,6 @@ This module provides a python command line interpreter
 import cmd
 import sys
 import shlex
-import models
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -49,10 +48,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if hasattr(models, arg):
-            # Use getattr to get the class object by name
-            my_class = getattr(models, arg)
-            my_instance = my_class()
+        if arg in HBNBCommand.all_classes and isinstance(globals()[arg], type):
+            my_instance = globals()[arg]()  # Equivalent to my_instance = arg()
             my_instance.save()
             print(my_instance.id)
         else:
