@@ -166,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
                                                        (str, int, float))):
                                             setattr(obj, attr_name, attr_value)
                                             obj.save()
-                                            #print(obj)
+
                             instance_found = True
                             break
                     if not instance_found:
