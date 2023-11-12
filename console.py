@@ -109,7 +109,7 @@ class HBNBCommand(cmd.Cmd):
         obj_id = args[1]
         all_objs = storage.all()
 
-        key = f"{class_name}.{obj_id}"
+        key = "{class_name}.{obj_id}".format(class_name, obj_id)
         if key in all_objs:
             del all_objs[key]   # Delete the instance from storage
             storage.save()      # Save the changes to the storage
