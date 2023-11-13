@@ -51,7 +51,8 @@ class HBNBCommand(cmd.Cmd):
             }
 
         # Check if the class (first arg) is valid
-        if any(command_parts[0] == class_name for class_name in self.all_classes):
+        if any(command_parts[0] == class_name for
+               class_name in self.all_classes):
             # Get the method and required arguments to execute
             if command_parts[1] in method_mapping:
                 method = method_mapping[command_parts[1]]
@@ -173,19 +174,28 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-    def do_all(self, arg):
+    def do_all(self, line):
         """Prints all string representation of all
         instances based or not on the class name.
         """
+        args = line.split()
         list = []
-        if not arg or arg in globals() and isinstance(globals()[arg], type):
-            all_objs = storage.all()
-            for obj_id, obj in all_objs.items():
-                list.append(str(obj))
-            print(list)
+
+        if not args:
+            all_objs = storage.all().values()
         else:
-            print("** class doesn't exist **")
-            return
+            class_name = args[0]
+            if class_name not in self.all_classes:
+                print("** class doesn't exist **")
+                return
+            all_objs = [obj for obj in storage.all().values()
+                        if obj.__class__.__name__ == class_name]
+
+        objs_formatted = [f"[{str(obj)} {obj.to_dict()}]"
+                          for obj in all_objs]
+
+        for obj in objs_formatted:
+            print(obj)
 
     def do_update(self, arg):
         """
