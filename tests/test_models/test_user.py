@@ -16,98 +16,92 @@ class TestBaseModel(unittest.TestCase):
         """Create two users of class `User` to user
         for subsequent test cases
         """
-        self.user1 = User()
-        self.user1.first_name = "Betty"
-        self.user1.last_name = "Bar"
-        self.user1.email = "betty@mail.com"
-        self.user1.password = "root"
-
-        self.user2 = User()
-        self.user2.first_name = "William"
-        self.user2.email = "william@mail.com"
-        self.user2.password = "bingo!"
+        self.user = User()
+        self.user.first_name = "Betty"
+        self.user.last_name = "Bar"
+        self.user.email = "betty@mail.com"
+        self.user.password = "root"
 
     def test_instance_creation_user(self):
         """Check if a user instance is created with
         properties inherited from `BaseModel`
         """
-        self.assertIsInstance(self.user1, User)
-        self.assertIsInstance(self.user2, User)
+        self.assertIsInstance(self.user, User)
 
     def test_inheritance_user(self):
         """Check if attributes were correctly inherited
         from `BaseModel`
         """
-        self.assertTrue(hasattr(self.user1, "id"))
-        self.assertTrue(hasattr(self.user1, "created_at"))
-        self.assertTrue(hasattr(self.user1, "updated_at"))
-
-        self.assertTrue(hasattr(self.user2, "id"))
-        self.assertTrue(hasattr(self.user2, "created_at"))
-        self.assertTrue(hasattr(self.user2, "updated_at"))
+        self.assertTrue(hasattr(self.user, "id"))
+        self.assertTrue(hasattr(self.user, "created_at"))
+        self.assertTrue(hasattr(self.user, "updated_at"))
 
     def test_attributes_user(self):
         """Check attributes of `User`
         """
-        self.assertEqual(self.user1.first_name, "Betty")
-        self.assertEqual(self.user1.last_name, "Bar")
-        self.assertEqual(self.user1.email, "betty@mail.com")
-        self.assertEqual(self.user1.password, "root")
-
-        self.assertEqual(self.user2.first_name, "William")
-        self.assertEqual(self.user2.last_name, "")
-        self.assertEqual(self.user2.email, "william@mail.com")
-        self.assertEqual(self.user2.password, "bingo!")
+        self.assertEqual(self.user.first_name, "Betty")
+        self.assertEqual(self.user.last_name, "Bar")
+        self.assertEqual(self.user.email, "betty@mail.com")
+        self.assertEqual(self.user.password, "root")
 
     def test_id_string_user(self):
         """Check if user `id` is a string
         """
-        self.assertTrue(isinstance(self.user1.id, str))
-        self.assertTrue(isinstance(self.user2.id, str))
+        self.assertTrue(isinstance(self.user.id, str))
 
     def test_id_uniqueness_user(self):
         """Check if user ids are unique
         """
-        self.assertNotEqual(self.user1.id, self.user2.id)
+        new_user = User()
+        new_user.first_name = "william"
+        new_user.last_name = "Thomas"
+        new_user.password = "bingo!"
+        new_user.email = "william@mail.com"
+
+        self.assertNotEqual(self.user.id, new_user.id)
+        self.assertEqual(new_user.first_name, "william")
+        self.assertEqual(new_user.last_name, "Thomas")
+        self.assertEqual(new_user.password, "bingo!")
+        self.assertEqual(new_user.email, "william@mail.com")
 
     def test_time_format_user(self):
         """Check that the time format is correct
         """
-        self.assertIsInstance(self.user1.created_at, datetime)
-        self.assertIsInstance(self.user1.updated_at, datetime)
+        self.assertIsInstance(self.user.created_at, datetime)
+        self.assertIsInstance(self.user.updated_at, datetime)
 
     def test_parts_string_representation_user(self):
         """Check if the string representation is correct
         """
-        expected_str = "[User] ({}) {}".format(self.user1.id,
-                                               self.user1.__dict__)
+        expected_str = "[User] ({}) {}".format(self.user.id,
+                                               self.user.__dict__)
 
-        self.assertEqual(str(self.user1), expected_str)
+        self.assertEqual(str(self.user), expected_str)
 
     def test_save_method_user(self):
         """Checks the save method
         """
-        initial_updated_at = self.user1.updated_at
-        self.user1.save()
+        initial_updated_at = self.user.updated_at
+        self.user.save()
 
-        self.assertNotEqual(self.user1.updated_at, initial_updated_at)
+        self.assertNotEqual(self.user.updated_at, initial_updated_at)
 
     def test_to_dict_method_user(self):
         """Check the return type of the to_dict method, and if
         the dictionary has all the expected attributes for `User`
         """
-        user1_dict = self.user1.to_dict()
+        user_dict = self.user.to_dict()
 
-        self.assertIsInstance(user1_dict, dict)
-        self.assertIn("__class__", user1_dict)
-        self.assertEqual(user1_dict["__class__"], "User")
-        self.assertIn("id", user1_dict)
-        self.assertIn("created_at", user1_dict)
-        self.assertIn("updated_at", user1_dict)
-        self.assertIn("email", user1_dict)
-        self.assertIn("password", user1_dict)
-        self.assertIn("first_name", user1_dict)
-        self.assertIn("last_name", user1_dict)
+        self.assertIsInstance(user_dict, dict)
+        self.assertIn("__class__", user_dict)
+        self.assertEqual(user_dict["__class__"], "User")
+        self.assertIn("id", user_dict)
+        self.assertIn("created_at", user_dict)
+        self.assertIn("updated_at", user_dict)
+        self.assertIn("email", user_dict)
+        self.assertIn("password", user_dict)
+        self.assertIn("first_name", user_dict)
+        self.assertIn("last_name", user_dict)
 
     def test_create_from_empty_dict_user(self):
         """Check the instance created from an empty dictionary
@@ -132,19 +126,19 @@ class TestBaseModel(unittest.TestCase):
         """Check if the date format is correctly converted
         _from `datetime` to the expected string format
         """
-        user1_dict = self.user1.to_dict()
+        user_dict = self.user.to_dict()
 
-        self.assertIsInstance(user1_dict["created_at"], str)
-        self.assertIsInstance(user1_dict["updated_at"], str)
+        self.assertIsInstance(user_dict["created_at"], str)
+        self.assertIsInstance(user_dict["updated_at"], str)
         self.assertEqual(
-                datetime.strptime(user1_dict["created_at"],
+                datetime.strptime(user_dict["created_at"],
                                   "%Y-%m-%dT%H:%M:%S.%f"),
-                self.user1.created_at
+                self.user.created_at
         )
         self.assertEqual(
-                datetime.strptime(user1_dict["updated_at"],
+                datetime.strptime(user_dict["updated_at"],
                                   "%Y-%m-%dT%H:%M:%S.%f"),
-                self.user1.updated_at
+                self.user.updated_at
         )
 
     def test_from_dict_method_user(self):
@@ -152,12 +146,12 @@ class TestBaseModel(unittest.TestCase):
         reloaded when a dictionary is provided as argument
         to BaseModel
         """
-        user1_json = self.user1.to_dict()
-        new_instance = User(**user1_json)
+        user_json = self.user.to_dict()
+        new_instance = User(**user_json)
 
-        self.assertEqual(self.user1.id, new_instance.id)
-        self.assertEqual(self.user1.created_at, new_instance.created_at)
-        self.assertEqual(self.user1.updated_at, new_instance.updated_at)
+        self.assertEqual(self.user.id, new_instance.id)
+        self.assertEqual(self.user.created_at, new_instance.created_at)
+        self.assertEqual(self.user.updated_at, new_instance.updated_at)
 
 
 if __name__ == "__main__":
