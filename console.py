@@ -84,8 +84,12 @@ class HBNBCommand(cmd.Cmd):
             ):
                 all_objs = storage.all()
                 instance_found = False
+
                 for obj_id, obj in all_objs.items():
-                    if obj.id == instance_id:
+                    if (
+                        obj.id == instance_id
+                        and isinstance(obj, globals()[class_name])
+                    ):
                         print(str(obj))
                         instance_found = True
                         break
