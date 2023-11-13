@@ -38,6 +38,43 @@ class HBNBCommand(cmd.Cmd):
             print()
         return line
 
+    def default(self, line):
+        """Handles commands with the form
+        `<class_name>.<method> (<arg1>, arg2>, ...)`
+        """
+        command_parts = line.split(".")
+
+        # Map method names to corresponding methods
+        method_mapping = {
+                "all()": self.do_all,
+                "count()": self.do_count
+            }
+
+        # Check if the class (first arg) is valid
+        if any(command_parts[0] == class_name for class_name in self.all_classes):
+            # Get the method and required arguments to execute
+            if command_parts[1] in method_mapping:
+                method = method_mapping[command_parts[1]]
+                method(f"{command_parts[0]} {command_parts[1]}")
+            elif command_parts[1].startswith("show"):
+                # Extract the ID from the show command
+                id_show = command_parts[1].split('"')[1]
+                self.do_show(f"{command_parts[0]} {id_show}")
+            elif command_parts[1].startswith("destroy"):
+                # Extract the ID from the destroy command
+                id_destroy = command_parts[1].split('"')[1]
+                self.do_destroy(f"{command_parts[0]} {id_destroy}")
+            elif command_parts[1].startswith("update"):
+                # Extract various parts of the update command
+                args_update = command_parts[1].split('"')
+                _class, _id, _attr, _value = (
+                        command_parts[0],
+                        args_update[1],
+                        args_update[3],
+                        args_update[5]
+                    )
+                self.do_update(f"{_class} {_id} {_attr} {_value}")
+
     def do_quit(self, arg):
         """Quit command to exit the program
         """
@@ -99,6 +136,14 @@ class HBNBCommand(cmd.Cmd):
 
             else:
                 print("** class doesn't exist **")
+
+    def do_count(self, line):
+        """Returns the number of instances of a class
+        Usage: <class_name>.count()
+        """
+        numb_instances = len([value for key, value in storage.all().items()
+                              if key.startswith(line[0])])
+        print(numb_instances)
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id
