@@ -40,7 +40,10 @@ class HBNBCommand(cmd.Cmd):
         if '.' in cmd:
             class_name, _, cmd = cmd.partition('.')
             # Check if the class exists in the global namespace
-            if class_name in globals() and isinstance(globals()[class_name], type):
+            if (
+                class_name in globals() and
+                isinstance(globals()[class_name], type)
+            ):
                 # Update the argument with the class name
                 arg = f"{class_name}.{cmd}"
 
