@@ -78,16 +78,16 @@ class HBNBCommand(cmd.Cmd):
                         )
                 if len(arguments) == 4:
                     # The exact number of arguments expected by do_update
-                    self.do_update(f"{class_name} {instance_id}
-                                     {attr_name} {attr_value}")
+                    self.do_update(f"{class_name} {instance_id}"
+                                    "{attr_name} {attr_value}")
                 elif len(arguments) == 6:
                     # Two extra arguments so we call do_update twice
                     attr_name1 = arguments[4]
                     attr_value1 = arguments[5]
-                    self.do_update(f"{class_name} {instance_id}
-                                     {attr_name} {attr_value}")
-                    self.do_update(f"{class_name} {instance_id}
-                                     {attr_name1} {attr_value1}")
+                    self.do_update(f"{class_name} {instance_id}"
+                                    "{attr_name} {attr_value}")
+                    self.do_update(f"{class_name} {instance_id}"
+                                    "{attr_name1} {attr_value1}")
 
     def do_quit(self, arg):
         """Quit command to exit the program
