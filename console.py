@@ -70,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
                 # Extract various parts of the update command
                 arguments = re.findall(r'\b(?:\w+-)*\w+\b|\d+',
                                        command_parts[1])
-                class_name, instance_id, attr_name, attr_value = (
+                class_name, inst_id, att_name, att_value = (
                         command_parts[0],
                         arguments[1],
                         arguments[2],
@@ -78,16 +78,19 @@ class HBNBCommand(cmd.Cmd):
                         )
                 if len(arguments) == 4:
                     # The exact number of arguments expected by do_update
-                    self.do_update(f"{class_name} {instance_id}"
-                                    "{attr_name} {attr_value}")
+                    self.do_update(
+                            f"{class_name} {inst_id} {att_name} {att_value}"
+                    )
                 elif len(arguments) == 6:
                     # Two extra arguments so we call do_update twice
-                    attr_name1 = arguments[4]
-                    attr_value1 = arguments[5]
-                    self.do_update(f"{class_name} {instance_id}"
-                                    "{attr_name} {attr_value}")
-                    self.do_update(f"{class_name} {instance_id}"
-                                    "{attr_name1} {attr_value1}")
+                    att_name1 = arguments[4]
+                    att_value1 = arguments[5]
+                    self.do_update(
+                            f"{class_name} {inst_id} {att_name} {att_value}"
+                    )
+                    self.do_update(
+                            f"{class_name} {inst_id} {att_name1} {att_value1}"
+                    )
 
     def do_quit(self, arg):
         """Quit command to exit the program
