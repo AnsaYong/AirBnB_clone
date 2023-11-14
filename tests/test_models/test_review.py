@@ -16,12 +16,13 @@ class TestReview(unittest.TestCase):
         """Create an instance of class `Review` to use
         for subsequent test cases
         """
+        self.my_review = Review()
+
         # Create instances of Place and User for IDs
         place_instance = Place()
         user_instance = User()
 
         # Set IDs for Review attributes
-        self.my_review = Review()
         self.my_review.place_id = place_instance.id
         self.my_review.user_id = user_instance.id
         self.my_review.text = "A wonderful stay with great amenities!"

@@ -9,7 +9,7 @@ from models.state import State
 import json
 
 
-class TestBaseModel(unittest.TestCase):
+class TestState(unittest.TestCase):
     """Provides test methods for the `State` class
     """
     def setUp(self):

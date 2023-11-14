@@ -7,7 +7,7 @@ from datetime import datetime
 from models.amenity import Amenity
 
 
-class TestBaseModel(unittest.TestCase):
+class TestAmenity(unittest.TestCase):
     """
     Provides test methods for the `Amenity` class
     """

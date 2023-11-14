@@ -9,7 +9,7 @@ from models.user import User
 import json
 
 
-class TestBaseModel(unittest.TestCase):
+class TestUser(unittest.TestCase):
     """Provides test methods for the `User` class
     """
     def setUp(self):
