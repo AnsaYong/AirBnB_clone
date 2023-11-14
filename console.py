@@ -5,6 +5,7 @@ This module provides a python command line interpreter
 import cmd
 import sys
 import shlex
+import re
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -59,22 +60,34 @@ class HBNBCommand(cmd.Cmd):
                 method(f"{command_parts[0]} {command_parts[1]}")
             elif command_parts[1].startswith("show"):
                 # Extract the ID from the show command
-                id_show = command_parts[1].split('"')[1]
-                self.do_show(f"{command_parts[0]} {id_show}")
+                instance_id = command_parts[1].split('"')[1]
+                self.do_show(f"{command_parts[0]} {instance_id}")
             elif command_parts[1].startswith("destroy"):
                 # Extract the ID from the destroy command
-                id_destroy = command_parts[1].split('"')[1]
-                self.do_destroy(f"{command_parts[0]} {id_destroy}")
+                instance_id = command_parts[1].split('"')[1]
+                self.do_destroy(f"{command_parts[0]} {instance_id}")
             elif command_parts[1].startswith("update"):
                 # Extract various parts of the update command
-                args_update = command_parts[1].split('"')
-                _class, _id, _attr, _value = (
+                arguments = re.findall(r'\b(?:\w+-)*\w+\b|\d+',
+                                       command_parts[1])
+                class_name, instance_id, attr_name, attr_value = (
                         command_parts[0],
-                        args_update[1],
-                        args_update[3],
-                        args_update[5]
-                    )
-                self.do_update(f"{_class} {_id} {_attr} {_value}")
+                        arguments[1],
+                        arguments[2],
+                        arguments[3]
+                        )
+                if len(arguments) == 4:
+                    # The exact number of arguments expected by do_update
+                    self.do_update(f"{class_name} {instance_id}
+                                     {attr_name} {attr_value}")
+                elif len(arguments) == 6:
+                    # Two extra arguments so we call do_update twice
+                    attr_name1 = arguments[4]
+                    attr_value1 = arguments[5]
+                    self.do_update(f"{class_name} {instance_id}
+                                     {attr_name} {attr_value}")
+                    self.do_update(f"{class_name} {instance_id}
+                                     {attr_name1} {attr_value1}")
 
     def do_quit(self, arg):
         """Quit command to exit the program
