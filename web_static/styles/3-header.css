@@ -1,0 +1,10 @@
+header {
+	height: 70px;
+	width: 100%;
+	color: white;
+	border-bottom: 1px solid #CCCCCC;
+	padding: 0 20px; /* Add padding to create space for the logo */
+	background-image: url("../images/logo.png");
+	background-repeat: no-repeat;
+	justify-content: center;
+}
